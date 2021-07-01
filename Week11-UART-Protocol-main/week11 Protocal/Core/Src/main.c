@@ -389,8 +389,7 @@ void UARTTxWrite(UARTStucrture *uart, uint8_t *pData, uint16_t len)
 }
 
 
-void DynamixelProtocal2(uint8_t *Memory, uint8_t MotorID, int16_t dataIn,
-		UARTStucrture *uart)
+void DynamixelProtocal2(uint8_t *Memory, uint8_t MotorID, int16_t dataIn,UARTStucrture *uart)
 {
 	//all Static Variable
 	static DNMXPState State = DNMXP_idle;
@@ -491,7 +490,6 @@ void DynamixelProtocal2(uint8_t *Memory, uint8_t MotorID, int16_t dataIn,
 			CRC_accum = update_crc(CRC_accum, &(uart->RxBuffer[firstPartStart]),
 					uart->RxLen - firstPartStart);
 			CRC_accum = update_crc(CRC_accum, uart->RxBuffer, uart->RxTail - 2);
-
 		}
 
 		if (CRC_accum == CRCCheck)
@@ -502,8 +500,7 @@ void DynamixelProtocal2(uint8_t *Memory, uint8_t MotorID, int16_t dataIn,
 			{
 				//create packet template
 				uint8_t temp[] =
-				{ 0xff, 0xff, 0xfd, 0x00, 0x00, 0x05, 0x00, 0x55, 0x00, 0x00,
-						0x00 };
+				{ 0xff, 0xff, 0xfd, 0x00, 0x00, 0x05, 0x00, 0x55, 0x00, 0x00,0x00 };
 				//config MotorID
 				temp[4] = MotorID;
 				//calcuate CRC
@@ -545,6 +542,7 @@ void DynamixelProtocal2(uint8_t *Memory, uint8_t MotorID, int16_t dataIn,
 									0x00,0x00}; //CRC
 				temp[4] = MotorID;
 
+				//Write Process
 				uint16_t ptrAddr = startAddr;
 				uint16_t parameter_ptr = 2;
 				for (uint16_t i = 0 ; i < (datalen-5); i++)
